@@ -14,8 +14,14 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="CharacterBody2D" unique_id=279523986]
+[sub_resource type="LabelSettings" id="LabelSettings_at620"]
+font_size = 12
+
+[node name="Player" type="RigidBody2D" unique_id=1266187319]
+contact_monitor = true
+max_contacts_reported = 2
 script = ExtResource("1_at620")
+SPEED = 60.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=163612521]
 texture_filter = 1
@@ -30,3 +36,43 @@ polygon = PackedVector2Array(-7.5, -3, -4.5, 0, 0.5, 0, 0.5, 2, 1.5, 3, 3.5, 3, 
 
 [node name="Shape" type="CollisionPolygon2D" parent="DeathCollision" unique_id=19347836]
 polygon = PackedVector2Array(-8, 0, -8, -5, -7, -6, -5, -6, -3, -4, 1, -4, 1, -5, 3, -5, 7, -2, 7, 0)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1127413278]
+position = Vector2(10, -20)
+zoom = Vector2(3, 3)
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1391352138]
+
+[node name="Control" type="Control" parent="UI" unique_id=1524683253]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VX" type="Label" parent="UI/Control" unique_id=196505039]
+layout_mode = 0
+offset_right = 65.0
+offset_bottom = 17.0
+text = "Vitesse X : "
+label_settings = SubResource("LabelSettings_at620")
+uppercase = true
+
+[node name="VY" type="Label" parent="UI/Control" unique_id=1550894654]
+layout_mode = 0
+offset_top = 17.0
+offset_right = 77.0
+offset_bottom = 34.0
+text = "Vitesse Y :"
+label_settings = SubResource("LabelSettings_at620")
+uppercase = true
+
+[node name="R" type="Label" parent="UI/Control" unique_id=106444573]
+layout_mode = 0
+offset_top = 34.0
+offset_right = 77.0
+offset_bottom = 51.0
+text = "Rotation :"
+label_settings = SubResource("LabelSettings_at620")
+uppercase = true
