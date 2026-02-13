@@ -15,7 +15,7 @@ config/features=PackedStringArray("4.6", "Mobile")
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/addons/fgi/plugin.cfg", "res://addons/git_bash_here/plugin.cfg")
+enabled=PackedStringArray("res://addons/gdterm/plugin.cfg", "res://addons/terminal/plugin.cfg")
 
 [input]
 
@@ -28,12 +28,6 @@ Accelerate={
 [physics]
 
 3d/physics_engine="Jolt Physics"
-
-[plugins]
-
-git_bash_here/shortcut=Object(Shortcut,"resource_local_to_scene":false,"resource_name":"","events":[Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":true,"shift_pressed":true,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":71,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
-],"script":null)
-
 
 [rendering]
 
