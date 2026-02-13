@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://dw6d0h5rcq0sh"]
+
+[ext_resource type="Texture2D" uid="uid://c5xy876afap25" path="res://Assets/Sprites/Player/Base.png" id="1_nk02t"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_at620"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_nk02t")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D" unique_id=279523986]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=163612521]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_at620")
+animation = &"Idle"
+
+[node name="Shape" type="CollisionPolygon2D" parent="." unique_id=1914203611]
+position = Vector2(-0.5, 3)
+polygon = PackedVector2Array(-7.5, -3, -4.5, 0, 0.5, 0, 0.5, 2, 1.5, 3, 3.5, 3, 4.5, 2, 4.5, 0, 7.5, -3)
+
+[node name="DeathCollision" type="Area2D" parent="." unique_id=459720323]
+
+[node name="Shape" type="CollisionPolygon2D" parent="DeathCollision" unique_id=19347836]
+polygon = PackedVector2Array(-8, 0, -8, -5, -7, -6, -5, -6, -3, -4, 1, -4, 1, -5, 3, -5, 7, -2, 7, 0)
