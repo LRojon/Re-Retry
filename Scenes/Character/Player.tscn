@@ -3,43 +3,87 @@
 [ext_resource type="Script" uid="uid://30514j134sd6" path="res://Scripts/Character/Player.gd" id="1_at620"]
 [ext_resource type="Texture2D" uid="uid://c5xy876afap25" path="res://Assets/Sprites/Player/Base.png" id="1_nk02t"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_at620"]
+friction = 0.4
+bounce = 0.3
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_at620"]
+atlas = ExtResource("1_nk02t")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkuch"]
+atlas = ExtResource("1_nk02t")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qg63r"]
+atlas = ExtResource("1_nk02t")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l2atl"]
+atlas = ExtResource("1_nk02t")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1tkam"]
+atlas = ExtResource("1_nk02t")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n35ei"]
+atlas = ExtResource("1_nk02t")
+region = Rect2(80, 0, 16, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_at620"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_nk02t")
+"texture": SubResource("AtlasTexture_at620")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nkuch")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qg63r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l2atl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1tkam")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n35ei")
 }],
 "loop": true,
 "name": &"Idle",
-"speed": 5.0
+"speed": 20.0
 }]
 
 [sub_resource type="LabelSettings" id="LabelSettings_at620"]
 font_size = 12
 
 [node name="Player" type="RigidBody2D" unique_id=1266187319]
+physics_material_override = SubResource("PhysicsMaterial_at620")
+center_of_mass_mode = 1
 contact_monitor = true
 max_contacts_reported = 2
 script = ExtResource("1_at620")
-SPEED = 60.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=163612521]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_at620")
 animation = &"Idle"
+frame_progress = 0.0054415856
 
 [node name="Shape" type="CollisionPolygon2D" parent="." unique_id=1914203611]
 position = Vector2(-0.5, 3)
-polygon = PackedVector2Array(-7.5, -3, -4.5, 0, 0.5, 0, 0.5, 2, 1.5, 3, 3.5, 3, 4.5, 2, 4.5, 0, 7.5, -3)
+polygon = PackedVector2Array(-7.5, -2, -5.5, 0, 0.5, 0, 0.5, 2, 1.5, 3, 3.5, 3, 4.5, 2, 4.5, 0, 5.5, 0, 7.5, -2, 7.5, -5, 5.5, -7, 3.5, -8, 1.5, -8, 1.5, -7, -2.5, -7, -4.5, -9, -6.5, -9, -7.5, -8)
 
 [node name="DeathCollision" type="Area2D" parent="." unique_id=459720323]
 
 [node name="Shape" type="CollisionPolygon2D" parent="DeathCollision" unique_id=19347836]
 polygon = PackedVector2Array(-8, 0, -8, -5, -7, -6, -5, -6, -3, -4, 1, -4, 1, -5, 3, -5, 7, -2, 7, 0)
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1127413278]
-position = Vector2(10, -20)
-zoom = Vector2(3, 3)
+[node name="Camera" type="Camera2D" parent="." unique_id=1127413278]
+zoom = Vector2(1.5, 1.5)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1391352138]
 
@@ -74,5 +118,14 @@ offset_top = 34.0
 offset_right = 77.0
 offset_bottom = 51.0
 text = "Rotation :"
+label_settings = SubResource("LabelSettings_at620")
+uppercase = true
+
+[node name="A" type="Label" parent="UI/Control" unique_id=648504536]
+layout_mode = 0
+offset_top = 51.0
+offset_right = 77.0
+offset_bottom = 68.0
+text = "Altitude :"
 label_settings = SubResource("LabelSettings_at620")
 uppercase = true

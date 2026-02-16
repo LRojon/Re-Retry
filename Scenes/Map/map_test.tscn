@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://xxgpn4o157mb"]
 
+[ext_resource type="Script" uid="uid://bdyb4nxvvjxhs" path="res://Scripts/Maps/Test.gd" id="1_eevkl"]
 [ext_resource type="Texture2D" uid="uid://bctx73fbwvlqh" path="res://Assets/Tiles/Tileset/Tileset.png" id="1_yxw81"]
 [ext_resource type="PackedScene" uid="uid://dw6d0h5rcq0sh" path="res://Scenes/Character/Player.tscn" id="2_lrfjy"]
 
@@ -43,6 +44,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_lrfjy")
 
 [node name="MapTest" type="Node2D" unique_id=2069998379]
+script = ExtResource("1_eevkl")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=884211791]
 texture_filter = 1
