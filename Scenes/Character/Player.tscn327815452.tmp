@@ -76,7 +76,8 @@ max_contacts_reported = 2
 linear_damp = 0.75
 angular_damp = 2.0
 script = ExtResource("1_at620")
-LIFT_FORCE = 2.0
+LIFT_FORCE = 8.0
+DRAG_FORCE = 1.0
 
 [node name="Trail" type="CPUParticles2D" parent="." unique_id=307287660]
 texture_filter = 1
@@ -160,14 +161,5 @@ offset_top = 51.0
 offset_right = 77.0
 offset_bottom = 68.0
 text = "Altitude :"
-label_settings = SubResource("LabelSettings_at620")
-uppercase = true
-
-[node name="AV" type="Label" parent="UI/Control" unique_id=855522820]
-layout_mode = 0
-offset_left = 327.0
-offset_right = 480.0
-offset_bottom = 17.0
-text = "Angular Velocity : 1500"
 label_settings = SubResource("LabelSettings_at620")
 uppercase = true

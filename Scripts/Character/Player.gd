@@ -9,51 +9,111 @@ extends RigidBody2D
 @onready var vy = $UI/Control/VY
 @onready var r = $UI/Control/R
 @onready var a = $UI/Control/A
+@onready var av = $UI/Control/AV
 
 @export var SPEED = 300.0
-var n = 0
+@export var THRUST_FORCE = 2500.0        # Force de poussée
+@export var ROTATION_SPEED = 2.0        # Vitesse de rotation en montée (rad/s)
+@export var NOSE_DOWN_SPEED = 2.0       # Vitesse à laquelle le nez suit la vélocité en chute
+@export var MAX_SPEED = 400.0
+@export var LIFT_FORCE = 800.0           # Coefficient de portance
+@export var DRAG_FORCE = 1.0            # Résistance de l'air (freine la composante perpendiculaire)
+
 ##### BUILT-IN #####
 
 func _ready() -> void:
 	sprite.speed_scale = 0
 	sprite.play("Idle")
+	
+	deathCollision.connect("body_shape_entered",
+		func(): print("death")#get_tree().reload_current_scene()
+	)
+
 
 func _draw() -> void:
-	draw_line(Vector2.ZERO, center_of_mass * 50, Color.BROWN)
-	draw_circle(center_of_mass * 50, 2, Color.RED)
+	var dir = Vector2(cos(sprite.rotation), sin(sprite.rotation))
+	var lift_dir = Vector2(-dir.y, -dir.x) # perpendiculaire à la vitesse
+	draw_line(Vector2.ZERO, lift_dir * 1000, Color(1, 0, 0, 0.2), 1)
+	
+	draw_line(Vector2.ZERO, _get_lift(), Color.RED, 1)
 
 func _physics_process(delta: float) -> void:
 	queue_redraw()
-	#if not is_on_floor():
-		#self.linear_velocity += get_gravity()
-	#else:
-		#self.linear_velocity.y = 0
-
+	
 	if Input.is_action_pressed("Accelerate"):
-		var dir = Vector2(
-			cos(rotation),
-			sin(rotation)
-		)
-		linear_velocity = dir * SPEED
-		angular_velocity = -2
-		sprite.speed_scale = sprite.speed_scale + 0.1 if sprite.speed_scale < 1.0 else 1.0
+		sprite.speed_scale = min(sprite.speed_scale + 0.1, 1.0)
+		# Thrust force par le joueur
+		_accelerate(delta)
 	else:
-		angular_velocity = 0
-		sprite.speed_scale = sprite.speed_scale - 0.1 if sprite.speed_scale > 0.0 else 0.0
-	
-	var dir = Vector2(
-		cos(sprite.rotation),
-		sin(sprite.rotation)
-	)
-	center_of_mass = dir * 0.5
-	
+		sprite.speed_scale = max(sprite.speed_scale - 0.1, 0.0)
+		# Chute avec le nez qui pique
+		_free_fall(delta)
+
+	# Limiter la vitesse max
+	if linear_velocity.length() > MAX_SPEED:
+		linear_velocity = linear_velocity.normalized() * MAX_SPEED
+
+	# La portance
+	_apply_lift()
+
+	# UI debug
 	vx.text = "Vitesse X : " + str(snappedf(linear_velocity.x, 0.01))
 	vy.text = "Vitesse Y : " + str(snappedf(linear_velocity.y, 0.01))
 	r.text = "Rotation : " + str(snappedf(rotation_degrees, 0.01))
 	a.text = "Altitude : " + str(snappedf(int((position.y - 602) / 4) * -1 + 12, 0.01))
-
+	av.text = "Angular Velocity : " + str(angular_velocity)
 
 ##### LOGIC #####
+
+func _accelerate(delta: float) -> void:
+	# Rotation fixe vers le haut (sens anti-horaire)
+	angular_velocity = 0
+	rotation -= ROTATION_SPEED * delta
+
+	# Poussée dans la direction de l'avion
+	var dir = Vector2(cos(rotation), sin(rotation))
+	apply_central_force(dir * THRUST_FORCE)
+
+
+func _free_fall(delta: float) -> void:
+	# Le nez de l'avion s'oriente progressivement vers la vélocité (piqué naturel)
+	if linear_velocity.length() > 10.0:
+		var target_angle = linear_velocity.angle()
+		var angle_diff = wrapf(target_angle - sprite.rotation, -PI, PI)
+		# doit changer de direction en fonction de l'orientation de l'avion
+		if sprite.rotation < -PI / 2:
+			angle_diff = -angle_diff
+		angular_velocity = angle_diff * NOSE_DOWN_SPEED
+	else:
+		angular_velocity = 0
+
+
+func _get_lift() -> Vector2:
+	var lift: Vector2 = Vector2.ZERO
+	if linear_velocity.length() > 10.0:
+		var dir = Vector2(cos(sprite.rotation), sin(sprite.rotation))
+		var lift_dir = Vector2(-dir.y, -dir.x) # perpendiculaire à la vitesse
+		lift = lift_dir * linear_velocity.length() * LIFT_FORCE
+	return lift
+
+
+func _apply_lift() -> void:
+	if linear_velocity.length() > 10.0:
+		var lift = _get_lift()
+		apply_central_force(lift)
+
+
+func _apply_lateral_drag() -> void:
+	# Empêche le glissement latéral — l'avion ne peut pas "déraper" dans l'air
+	var forward = Vector2(cos(rotation), sin(rotation))
+	var right = Vector2(-sin(rotation), cos(rotation))
+	
+	# Composante latérale de la vélocité
+	var lateral_speed = linear_velocity.dot(right)
+	
+	# Annuler progressivement cette composante
+	apply_central_force(-right * lateral_speed * DRAG_FORCE)
+
 
 func is_on_floor() -> bool:
 	return self.get_contact_count() > 0

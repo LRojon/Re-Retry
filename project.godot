@@ -22,7 +22,7 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/GitGodot/plugin.cfg")
+enabled=PackedStringArray("res://addons/GitGodot/plugin.cfg", "res://addons/trail_2d/plugin.cfg")
 
 [input]
 
