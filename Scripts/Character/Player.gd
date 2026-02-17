@@ -25,9 +25,9 @@ func _ready() -> void:
 	sprite.speed_scale = 0
 	sprite.play("Idle")
 	
-	deathCollision.connect("body_shape_entered",
-		func(): print("death")#get_tree().reload_current_scene()
-	)
+	#deathCollision.connect("body_shape_entered",
+		#func(): print("death")#get_tree().reload_current_scene()
+	#)
 
 
 func _draw() -> void:
@@ -36,6 +36,7 @@ func _draw() -> void:
 	draw_line(Vector2.ZERO, lift_dir * 1000, Color(1, 0, 0, 0.2), 1)
 	
 	draw_line(Vector2.ZERO, _get_lift(), Color.RED, 1)
+	draw_line(Vector2.ZERO, linear_velocity, Color.YELLOW, 1)
 
 func _physics_process(delta: float) -> void:
 	queue_redraw()
@@ -79,11 +80,10 @@ func _free_fall(delta: float) -> void:
 	# Le nez de l'avion s'oriente progressivement vers la vélocité (piqué naturel)
 	if linear_velocity.length() > 10.0:
 		var target_angle = linear_velocity.angle()
-		var angle_diff = wrapf(target_angle - sprite.rotation, -PI, PI)
-		# doit changer de direction en fonction de l'orientation de l'avion
-		if sprite.rotation < -PI / 2:
-			angle_diff = -angle_diff
-		angular_velocity = angle_diff * NOSE_DOWN_SPEED
+		var angle_diff = target_angle - rotation
+		angle_diff = wrapf(angle_diff, -PI, PI)
+		var mul = 1
+		angular_velocity = angle_diff * NOSE_DOWN_SPEED * mul
 	else:
 		angular_velocity = 0
 
