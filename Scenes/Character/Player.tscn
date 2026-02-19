@@ -69,6 +69,15 @@ animations = [{
 [sub_resource type="LabelSettings" id="LabelSettings_at620"]
 font_size = 12
 
+[sub_resource type="LabelSettings" id="LabelSettings_nkuch"]
+font_size = 60
+font_color = Color(0.9999998, 0.012074706, 0.006631455, 1)
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 0.5176471)
+shadow_offset = Vector2(2, 2)
+
 [node name="Player" type="RigidBody2D" unique_id=1266187319]
 physics_material_override = SubResource("PhysicsMaterial_at620")
 contact_monitor = true
@@ -104,18 +113,21 @@ metadata/_edit_lock_ = true
 
 [node name="Shape" type="CollisionPolygon2D" parent="." unique_id=1914203611]
 position = Vector2(-0.5, 3)
-polygon = PackedVector2Array(-7.5, -2, -5.5, 0, 0.5, 0, 0.5, 2, 1.5, 3, 3.5, 3, 4.5, 2, 4.5, 0, 5.5, 0, 7.5, -2, 7.5, -3, 6.5, -3, 6.5, -5, 3.5, -7, 1.5, -7, 1.5, -6, -2.5, -6, -4.5, -8, -6.5, -8, -6.5, -7, -6.5, -3, -7.5, -3)
+polygon = PackedVector2Array(-7.5, -2, -5.5, 0, 0.5, 0, 0.5, 2, 1.5, 3, 3.5, 3, 4.5, 2, 4.5, 0, 5.5, 0, 7.5, -2, 7.5, -4, 6.5, -5, 3.5, -7, 1.5, -7, 1.5, -6, -2.5, -6, -4.5, -8, -6.5, -8, -6.5, -7, -7.5, -5)
 metadata/_edit_lock_ = true
 
 [node name="DeathCollision" type="Area2D" parent="." unique_id=459720323]
 metadata/_edit_lock_ = true
 
 [node name="Shape" type="CollisionPolygon2D" parent="DeathCollision" unique_id=19347836]
-polygon = PackedVector2Array(-8, 0, -8, -5, -7, -6, -5, -6, -3, -4, 1, -4, 1, -5, 3, -5, 7, -2, 7, 0)
+polygon = PackedVector2Array(-8, -2, -8, -5, -7, -6, -5, -6, -3, -4, 1, -4, 1, -5, 3, -5, 7, -2, 7, -1)
 metadata/_edit_lock_ = true
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1127413278]
+offset = Vector2(20, -20)
 zoom = Vector2(1.5, 1.5)
+limit_enabled = false
+position_smoothing_speed = 15.0
 metadata/_edit_lock_ = true
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1391352138]
@@ -171,3 +183,20 @@ offset_bottom = 17.0
 text = "Angular Velocity : 1500"
 label_settings = SubResource("LabelSettings_at620")
 uppercase = true
+
+[node name="GameOver" type="Label" parent="UI/Control" unique_id=1072817188]
+self_modulate = Color(1, 1, 1, 0.5)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.5
+offset_top = -11.5
+offset_right = 43.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_nkuch")

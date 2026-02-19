@@ -15,6 +15,7 @@ extends RigidBody2D
 @export var THRUST_ROTATION = 2.0        # Vitesse de rotation en montée (rad/s)
 @export var NOSE_DOWN_SPEED = 2.0       # Vitesse à laquelle le nez suit la vélocité en chute
 @export var MAX_SPEED = 400.0
+@export var MAX_ANGULAR_SPEED = 5.0
 @export var ANGULAR_DAMP = 0.5
 @export var LIFT_FORCE = 800.0           # Coefficient de portance
 @export var DRAG_FORCE = 1.0            # Résistance de l'air (freine la composante perpendiculaire)
@@ -24,10 +25,21 @@ extends RigidBody2D
 func _ready() -> void:
 	sprite.speed_scale = 0
 	sprite.play("Idle")
+	$UI/Control/GameOver.visible = false
 	
 	#deathCollision.connect("body_shape_entered",
 		#func(): print("death")#get_tree().reload_current_scene()
 	#)
+	deathCollision.body_entered.connect(
+		func(body: Node2D):
+			if body is TileMapLayer:
+				$UI/Control/GameOver.visible = true
+				get_tree().paused = true
+				await get_tree().create_timer(1).timeout
+				get_tree().paused = false
+				$UI/Control/GameOver.visible = false
+				get_tree().reload_current_scene()
+	)
 
 
 func _draw() -> void:
@@ -53,6 +65,8 @@ func _physics_process(delta: float) -> void:
 	# Limiter la vitesse max
 	if linear_velocity.length() > MAX_SPEED:
 		linear_velocity = linear_velocity.normalized() * MAX_SPEED
+	if abs(angular_velocity) > MAX_ANGULAR_SPEED:
+		angular_velocity = sign(angular_velocity) * MAX_ANGULAR_SPEED
 
 	# La portance
 	_apply_lift()
