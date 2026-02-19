@@ -74,9 +74,9 @@ physics_material_override = SubResource("PhysicsMaterial_at620")
 contact_monitor = true
 max_contacts_reported = 2
 linear_damp = 0.75
-angular_damp = 2.0
 script = ExtResource("1_at620")
-LIFT_FORCE = 2.0
+THRUST_ROTATION = 1.0
+LIFT_FORCE = 1.0
 
 [node name="Trail" type="CPUParticles2D" parent="." unique_id=307287660]
 texture_filter = 1
