@@ -140,7 +140,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VX" type="Label" parent="UI/Control" unique_id=196505039]
+[node name="V" type="Label" parent="UI/Control" unique_id=196505039]
 layout_mode = 0
 offset_right = 65.0
 offset_bottom = 17.0
@@ -148,29 +148,20 @@ text = "Vitesse X : "
 label_settings = SubResource("LabelSettings_at620")
 uppercase = true
 
-[node name="VY" type="Label" parent="UI/Control" unique_id=1550894654]
+[node name="R" type="Label" parent="UI/Control" unique_id=106444573]
 layout_mode = 0
 offset_top = 17.0
 offset_right = 77.0
 offset_bottom = 34.0
-text = "Vitesse Y :"
-label_settings = SubResource("LabelSettings_at620")
-uppercase = true
-
-[node name="R" type="Label" parent="UI/Control" unique_id=106444573]
-layout_mode = 0
-offset_top = 34.0
-offset_right = 77.0
-offset_bottom = 51.0
 text = "Rotation :"
 label_settings = SubResource("LabelSettings_at620")
 uppercase = true
 
 [node name="A" type="Label" parent="UI/Control" unique_id=648504536]
 layout_mode = 0
-offset_top = 51.0
+offset_top = 34.0
 offset_right = 77.0
-offset_bottom = 68.0
+offset_bottom = 51.0
 text = "Altitude :"
 label_settings = SubResource("LabelSettings_at620")
 uppercase = true

@@ -1,12 +1,12 @@
 extends RigidBody2D
+class_name Player
 
 ##### DECLARATIONS #####
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 @onready var deathCollision: Area2D = $DeathCollision
-@onready var vx = $UI/Control/VX
-@onready var vy = $UI/Control/VY
+@onready var v = $UI/Control/V
 @onready var r = $UI/Control/R
 @onready var a = $UI/Control/A
 @onready var av = $UI/Control/AV
@@ -19,6 +19,8 @@ extends RigidBody2D
 @export var ANGULAR_DAMP = 0.5
 @export var LIFT_FORCE = 800.0           # Coefficient de portance
 @export var DRAG_FORCE = 1.0            # Résistance de l'air (freine la composante perpendiculaire)
+
+var spawning_point: Vector2
 
 ##### BUILT-IN #####
 
@@ -74,8 +76,7 @@ func _physics_process(delta: float) -> void:
 	_apply_lateral_drag()
 
 	# UI debug
-	vx.text = "Vitesse X : " + str(snappedf(linear_velocity.x, 0.01))
-	vy.text = "Vitesse Y : " + str(snappedf(linear_velocity.y, 0.01))
+	v.text = "Vitesse : " + str(snappedf(linear_velocity.length(), 0.01))
 	r.text = "Rotation : " + str(snappedf(rotation_degrees, 0.01))
 	a.text = "Altitude : " + str(snappedf(int((position.y - 602) / 4) * -1 + 12, 0.01))
 	av.text = "Angular Velocity : " + str(angular_velocity)
