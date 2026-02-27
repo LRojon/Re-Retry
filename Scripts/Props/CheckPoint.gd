@@ -1,15 +1,38 @@
 extends AnimatedSprite2D
 class_name CheckPoint
 
-@export var is_starting_point: bool = false
+enum	 CheckPointType {
+	Starting,
+	Check,
+	Reverse,
+	End
+}
 
-@onready var spawn_pos = $Marker2D
+@export var type: CheckPointType = CheckPointType.Check
 
-# Called when the node enters the scene tree for the first time.
+@onready var spawn_point = $SpawnPoint
+@onready var trigger_zone = $TriggerZone
+
+var activated: bool = false
+
 func _ready() -> void:
-	pass # Replace with function body.
+	
+	match type:
+		CheckPointType.Check:
+			play("Closed" if not activated else "Opened")
+		CheckPointType.Starting:
+			play("Starting")
+	
+	trigger_zone.body_entered.connect(_on_body_enter_trigger_zone)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _on_body_enter_trigger_zone(body: Node2D):
+	if body is Player:
+		# Feature: Ajout d'un timer pour difficulté
+		body.spawning_point = spawn_point.global_position
+		if type == CheckPointType.Check and not activated:
+			print("play animation")
+			play("ClosedToOpened")
+			await animation_finished
+			play("Opened")
+		activated = true

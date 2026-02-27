@@ -21,6 +21,7 @@ class_name Player
 @export var DRAG_FORCE = 1.0            # Résistance de l'air (freine la composante perpendiculaire)
 
 var spawning_point: Vector2
+var is_reverted: bool = true
 
 ##### BUILT-IN #####
 
@@ -28,10 +29,9 @@ func _ready() -> void:
 	sprite.speed_scale = 0
 	sprite.play("Idle")
 	$UI/Control/GameOver.visible = false
+	# Work on reverted mode (not use scale but math and sprite.flip)
 	
-	#deathCollision.connect("body_shape_entered",
-		#func(): print("death")#get_tree().reload_current_scene()
-	#)
+	
 	deathCollision.body_entered.connect(
 		func(body: Node2D):
 			if body is TileMapLayer:
@@ -40,7 +40,8 @@ func _ready() -> void:
 				await get_tree().create_timer(1).timeout
 				get_tree().paused = false
 				$UI/Control/GameOver.visible = false
-				get_tree().reload_current_scene()
+				self.position = spawning_point
+				# Reini rotation et linear velocity et angular velocity
 	)
 
 
@@ -101,7 +102,7 @@ func _free_fall(_delta: float) -> void:
 		var angle_diff = target_angle - rotation
 		angle_diff = wrapf(angle_diff, -PI, PI)
 		
-		var target_angular_velocity = angle_diff * NOSE_DOWN_SPEED
+		var target_angular_velocity = angle_diff * NOSE_DOWN_SPEED# * (-1 if is_reverted else 1)
 		angular_velocity = lerpf(angular_velocity, target_angular_velocity, ANGULAR_DAMP)
 	else:
 		angular_velocity = 0 #lerpf(angular_velocity, 0.0, ANGULAR_DAMP * 0.5)

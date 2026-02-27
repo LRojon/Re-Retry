@@ -220,7 +220,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_v0q0x")
 }],
-"loop": true,
+"loop": false,
 "name": &"ClosedToOpened",
 "speed": 30.0
 }, {
@@ -241,10 +241,20 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ooeav"]
+size = Vector2(93, 33)
+
 [node name="CheckPoint" type="AnimatedSprite2D" unique_id=296871226]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_q6t52")
-animation = &"Starting"
+animation = &"ClosedToOpened"
 script = ExtResource("5_ooeav")
 
-[node name="Marker2D" type="Marker2D" parent="." unique_id=868980314]
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=868980314]
+position = Vector2(13, 22)
+
+[node name="TriggerZone" type="Area2D" parent="." unique_id=1313695385]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerZone" unique_id=120672550]
+position = Vector2(-0.5, 15.5)
+shape = SubResource("RectangleShape2D_ooeav")
